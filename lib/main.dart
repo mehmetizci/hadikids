@@ -10,6 +10,7 @@ import 'package:haydikids/config/languages.dart';
 import 'package:haydikids/core/haydiPreferences.dart';
 import 'package:haydikids/provider/configProvider.dart';
 import 'package:haydikids/intro/introduction.dart';
+import 'package:haydikids/screens/home.dart';
 /*import 'package:hadikids/provider/downloadsProvider.dart';
 import 'package:hadikids/provider/managerProvider.dart';
 
@@ -131,7 +132,7 @@ class _MainState extends State<Main> {
               ? 'introScreen'
               : 'homeScreen',
           routes: {
-            // 'homeScreen': (context) => AudioServiceWidget(child: MainLib()),
+            'homeScreen': (context) => HomeScreen(),
             'introScreen': (context) => IntroScreen()
           },
         );
