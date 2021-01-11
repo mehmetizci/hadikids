@@ -1,162 +1,135 @@
-import 'package:cuberto_bottom_bar/cuberto_bottom_bar.dart';
-import 'package:flutter/cupertino.dart';
+// Flutter
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:haydikids/provider/configurationProvider.dart';
+import 'package:haydikids/provider/preferencesProvider.dart';
+import 'package:haydikids/screens/homeScreen/components/homePageFavoritesEmpty.dart';
+import 'package:haydikids/screens/homeScreen/components/homePageWatchLaterEmpty.dart';
+import 'package:haydikids/screens/homeScreen/homeAppBar.dart';
+import 'package:haydikids/screens/homeScreen/homeCategoryList.dart';
+import 'package:haydikids/config/routes/components/video/shimmer/shimmerVideoTile.dart';
 
-void main() => runApp(HomeScreen());
+// Internal
+import 'package:haydikids/provider/managerProvider.dart';
 
-class HomeScreen extends StatelessWidget {
-  // This widget is the root of your application.
+// Packages
+import 'package:provider/provider.dart';
+import 'package:haydikids/screens/homeScreen/pages/favorites.dart';
+import 'package:haydikids/screens/homeScreen/pages/homePage.dart';
+import 'package:haydikids/screens/homeScreen/pages/music.dart';
+import 'package:haydikids/screens/homeScreen/pages/trending.dart';
+import 'package:haydikids/screens/homeScreen/pages/watchLater.dart';
+import 'package:haydikids/utils/ui/components/searchHistory.dart';
 
+class HomeScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.black.withOpacity(1),
-        statusBarIconBrightness: Brightness.light));
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.light(),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
-  int currentPage;
-  Color currentColor = Colors.deepPurple;
-  Color inactiveColor = Colors.black;
-  PageController tabBarController;
-  List<Tabs> tabs = new List();
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  TabController controller;
 
   @override
   void initState() {
+    ManagerProvider manager =
+        Provider.of<ManagerProvider>(context, listen: false);
+    controller = TabController(length: 5, vsync: this);
+    controller.addListener(() {
+      int tabIndex = controller.index;
+      if (tabIndex == 0) {
+        manager.currentHomeTab = HomeScreenTab.Home;
+      } else if (tabIndex == 1) {
+        manager.currentHomeTab = HomeScreenTab.Trending;
+      } else if (tabIndex == 2) {
+        manager.currentHomeTab = HomeScreenTab.Music;
+      } else if (tabIndex == 3) {
+        manager.currentHomeTab = HomeScreenTab.Favorites;
+      } else if (tabIndex == 4) {
+        manager.currentHomeTab = HomeScreenTab.WatchLater;
+      }
+    });
     super.initState();
-    currentPage = 0;
-    tabs.add(Tabs(
-      Icons.home,
-      "Home",
-      Colors.deepPurple,
-      getGradient(Colors.deepPurple),
-    ));
-    tabs.add(
-        Tabs(Icons.search, "Search", Colors.pink, getGradient(Colors.pink)));
-    tabs.add(
-        Tabs(Icons.alarm, "Alarm", Colors.amber, getGradient(Colors.amber)));
-    tabs.add(Tabs(
-        Icons.settings, "Settings", Colors.teal, getGradient(Colors.teal)));
-    tabBarController = new PageController(initialPage: 0);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget tabView({int destinationIndex}) {
-      return Container(
-          decoration: BoxDecoration(color: tabs[currentPage].color),
-          child: InkWell(
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    tabs[currentPage].title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    "Click here to Change the tab To " +
-                        tabs[destinationIndex].title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 14.0),
-                  ),
-                ],
-              )),
-              onTap: () {
-                setState(() {
-                  currentPage = destinationIndex;
-                  tabBarController.jumpToPage(currentPage);
-                });
-              }));
-    }
-
-    return Scaffold(
-      body: PageView(
-          controller: tabBarController,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            tabView(destinationIndex: 3),
-            tabView(destinationIndex: 0),
-            tabView(destinationIndex: 1),
-            tabView(destinationIndex: 2)
-          ]),
-      drawer: new Container(
-          width: 250.0,
-          margin: EdgeInsets.only(bottom: 60.0),
-          color: Colors.blue,
-          child: ListView(
-            children: <Widget>[Text("Hello"), Text("World")],
-          )),
-      endDrawer: new Container(
-          width: 250.0,
-          margin: EdgeInsets.only(bottom: 60.0),
-          color: Colors.blue,
-          child: ListView(
-            children: <Widget>[Text("Hello"), Text("World")],
-          )),
-      bottomNavigationBar: CubertoBottomBar(
-        key: Key("BottomBar"),
-        inactiveIconColor: inactiveColor,
-        tabStyle: CubertoTabStyle.STYLE_FADED_BACKGROUND,
-        selectedTab: currentPage,
-        tabs: tabs
-            .map((value) => TabData(
-                key: Key(value.title),
-                iconData: value.icon,
-                title: value.title,
-                tabColor: value.color,
-                tabGradient: value.gradient))
-            .toList(),
-        onTabChangedListener: (position, title, color) {
-          setState(() {
-            currentPage = position;
-            tabBarController.jumpToPage(position);
-          });
-        },
-      ),
-    );
   }
 
   @override
   void dispose() {
-    tabBarController.dispose();
+    controller.dispose();
     super.dispose();
   }
-}
 
-class Tabs {
-  final IconData icon;
-  final String title;
-  final Color color;
-  final Gradient gradient;
-
-  Tabs(this.icon, this.title, this.color, this.gradient);
-}
-
-getGradient(Color color) {
-  return LinearGradient(
-      colors: [color.withOpacity(0.5), color.withOpacity(0.1)],
-      stops: [0.0, 0.7]);
+  @override
+  Widget build(BuildContext context) {
+    ManagerProvider manager = Provider.of<ManagerProvider>(context);
+    ConfigurationProvider config = Provider.of<ConfigurationProvider>(context);
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Theme.of(context).cardColor,
+      body: Stack(
+        children: [
+          NestedScrollView(
+            physics: BouncingScrollPhysics(),
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, value) {
+              return [
+                HomePageAppBar(
+                    openSearch: manager.showSearchBar,
+                    tabController: controller,
+                    onSearch: () {
+                      controller.animateTo(0);
+                    })
+              ];
+            },
+            body: Column(
+              children: [
+                Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.grey[600].withOpacity(0.2)),
+                Expanded(
+                  child: TabBarView(controller: controller, children: [
+                    HomePage(),
+                    HomePageTrending(),
+                    HomePageMusic(),
+                    HomePageFavorites(),
+                    HomePageWatchLater()
+                  ]),
+                ),
+              ],
+            ),
+          ),
+          AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: manager.showSearchBar
+                  ? Column(
+                      children: [
+                        Container(
+                          height: kToolbarHeight + 48,
+                        ),
+                        Expanded(
+                          child: Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            child: SearchHistoryList(onItemTap: (String item) {
+                              manager.searchBarFocusNode.unfocus();
+                              manager.youtubeSearchQuery = item;
+                              controller.animateTo(0);
+                              manager.updateYoutubeSearchResults(
+                                  updateResults: true);
+                              Future.delayed(Duration(milliseconds: 100), () {
+                                manager.showSearchBar = false;
+                              });
+                              if (item.length > 1) {
+                                Future.delayed(
+                                    Duration(milliseconds: 400),
+                                    () => config
+                                        .addStringtoSearchHistory(item.trim()));
+                              }
+                            }),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container())
+        ],
+      ),
+    );
+  }
 }

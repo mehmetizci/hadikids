@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-//import 'package:hadikids/core/models/channelLogo.dart';
+import 'package:haydikids/core/models/channelLogo.dart';
 
 // Internal
 import 'package:haydikids/core/haydiPreferences.dart';
@@ -82,7 +82,7 @@ class ConfigProvider extends ChangeNotifier {
   // Use Youtube Webview
   bool get useYoutubeWebview => _useYoutubeWebview;
   // Navigate ChannelLogo Cache
-  //List<ChannelLogo> _channelLogos;
+  List<ChannelLogo> _channelLogos;
 
   // Disclaimer Status
   bool _disclaimerAccepted;
@@ -149,7 +149,7 @@ class ConfigProvider extends ChangeNotifier {
     _searchHistory =
         (jsonDecode(preferences.getSearchHistory()) as List<dynamic>)
             .cast<String>();
-    // _channelLogos = ChannelLogo.fromJsonArray(preferences.getChannelLogos());
+    _channelLogos = ChannelLogo.fromJsonArray(preferences.getChannelLogos());
     // Load Disclaimer Status
     _disclaimerAccepted = preferences.getDisclaimerStatus();
     _showDownloadFixDialog = preferences.getShowDownloadFixDialog();
@@ -201,7 +201,7 @@ class ConfigProvider extends ChangeNotifier {
   }
 
   // Navigate ChannelLogo Cache
-  /* List<ChannelLogo> get channelLogos => _channelLogos;
+  List<ChannelLogo> get channelLogos => _channelLogos;
   set channelLogos(List<ChannelLogo> newList) {
     _channelLogos = newList;
     preferences.saveChannelLogos(ChannelLogo.listToJson(newList));
@@ -211,7 +211,7 @@ class ConfigProvider extends ChangeNotifier {
   void addItemtoChannelLogoList(ChannelLogo item) {
     _channelLogos.add(item);
     preferences.saveChannelLogos(ChannelLogo.listToJson(_channelLogos));
-  }*/
+  }
 
   //
   // Settings for the MusicPlayer are found bellow this
