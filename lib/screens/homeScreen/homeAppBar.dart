@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:haydikids/provider/configurationProvider.dart';
+import 'package:haydikids/provider/configProvider.dart';
 import 'package:haydikids/provider/managerProvider.dart';
 import 'package:haydikids/provider/preferencesProvider.dart';
 import 'package:haydikids/config/routes/playlist.dart';
@@ -25,7 +25,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
   @override
   Widget build(BuildContext context) {
     ManagerProvider manager = Provider.of<ManagerProvider>(context);
-    ConfigurationProvider config = Provider.of<ConfigurationProvider>(context);
+    ConfigProvider config = Provider.of<ConfigProvider>(context);
     PreferencesProvider prefs = Provider.of<PreferencesProvider>(context);
     return SliverAppBar(
       titleSpacing: 0,

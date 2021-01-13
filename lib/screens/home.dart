@@ -1,6 +1,6 @@
 // Flutter
 import 'package:flutter/material.dart';
-import 'package:haydikids/provider/configurationProvider.dart';
+import 'package:haydikids/provider/configProvider.dart';
 import 'package:haydikids/provider/preferencesProvider.dart';
 import 'package:haydikids/screens/homeScreen/components/homePageFavoritesEmpty.dart';
 import 'package:haydikids/screens/homeScreen/components/homePageWatchLaterEmpty.dart';
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     ManagerProvider manager = Provider.of<ManagerProvider>(context);
-    ConfigurationProvider config = Provider.of<ConfigurationProvider>(context);
+    ConfigProvider config = Provider.of<ConfigProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).cardColor,

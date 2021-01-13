@@ -15,7 +15,6 @@ import 'package:haydikids/config/routes/components/video/shimmer/shimmerArtworkE
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerVideoComments.dart';
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerVideoEngagement.dart';
 import 'package:haydikids/config/routes/components/video/videoDownloadFab.dart';
-import 'package:haydikids/config/routes/components/video/videoTags.dart';
 import 'package:haydikids/core/downloadMenu/downloadMenu.dart';
 import 'package:haydikids/utils/ui/animations/fadeIn.dart';
 import 'package:haydikids/utils/ui/components/measureSize.dart';

@@ -16,8 +16,6 @@ import 'package:haydikids/provider/managerProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:haydikids/provider/preferencesProvider.dart';
-import 'package:haydikids/config/routes/channel.dart';
-import 'package:haydikids/config/routes/playlist.dart';
 import 'package:haydikids/config/routes/video.dart';
 import 'package:haydikids/utils/ui/animations/blurPageRoute.dart';
 import 'package:haydikids/utils/ui/components/popupMenu.dart';
@@ -65,8 +63,6 @@ class VideoTile extends StatelessWidget {
                       thumbnailUrl:
                           searchItem.videoThumbnails.last.url.toString(),
                     );
-                  } else if (searchItem is SearchPlaylist) {
-                    return YoutubePlayerPlaylistPage();
                   } else {
                     return Container();
                   }
@@ -376,12 +372,6 @@ class VideoTile extends StatelessWidget {
     } else if (searchItem is SearchVideo) {
       String link = searchItem.videoThumbnails.last.url.toString();
       return link;
-    } else {
-      SearchPlaylist searchPlaylist = searchItem;
-      YoutubeExplode yt = YoutubeExplode();
-      Playlist playlist = await yt.playlists.get(searchPlaylist.playlistId);
-      yt.close();
-      return playlist.thumbnails.highResUrl;
     }
   }
 

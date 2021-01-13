@@ -4,7 +4,7 @@ import 'dart:io';
 // Flutter
 import 'package:flutter/material.dart';
 import 'package:haydikids/config/languages.dart';
-import 'package:haydikids/provider/downloadsProvider.dart';
+//import 'package:haydikids/provider/downloadsProvider.dart';
 
 // Packages
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -22,8 +22,6 @@ class BackupSettings extends StatelessWidget {
   BackupSettings({@required this.scaffoldKey});
   @override
   Widget build(BuildContext context) {
-    DownloadsProvider downloadsProvider =
-        Provider.of<DownloadsProvider>(context);
     return SettingsColumnTile(
       title: Languages.of(context).labelBackup,
       icon: EvaIcons.saveOutline,
@@ -113,7 +111,7 @@ class BackupSettings extends StatelessWidget {
                           duration: Duration(seconds: 2),
                           context: context,
                           scaffoldKey: scaffoldKey);
-                      downloadsProvider.getDatabase();
+                      // downloadsProvider.getDatabase();
                     }))),
       ],
     );
