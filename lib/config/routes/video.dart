@@ -205,23 +205,7 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
                               ),*/
                                 Divider(),
                                 // Tags Editor
-                                VideoTags(
-                                    videoDetails:
-                                        manager.mediaInfoSet.videoDetails,
-                                    tagsControllers:
-                                        manager.mediaInfoSet.mediaTags,
-                                    onArtworkTap: () async {
-                                      File image = File((await FilePicker
-                                              .platform
-                                              .pickFiles(type: FileType.image))
-                                          .paths[0]);
-                                      if (image == null) return;
-                                      manager.mediaInfoSet.mediaTags
-                                          .artworkController = image.path;
-                                      setState(() {});
-                                    },
-                                    artworkUrl: manager.mediaInfoSet.mediaTags
-                                        .artworkController),
+
                                 Divider(),
                                 SizedBox(height: 8),
                                 Container(

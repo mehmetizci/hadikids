@@ -7,10 +7,11 @@ import 'package:haydikids/provider/preferencesProvider.dart';
 import 'package:haydikids/utils/ui/animations/blurPageRoute.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock/wakelock.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class StreamManifestPlayer extends StatelessWidget {
-  final StreamManifest manifest;
+  final String manifest;
   final VideoPlayerController controller;
   final bool isFullScreen;
   final Function onVideoEnded;
@@ -48,7 +49,7 @@ class StreamManifestPlayer extends StatelessWidget {
 }
 
 class _StreamManifestPlayer extends StatefulWidget {
-  final StreamManifest manifest;
+  final String manifest;
   final VideoPlayerController controller;
   final bool isFullScreen;
   final Function onVideoEnded;
@@ -78,8 +79,7 @@ class __StreamManifestPlayerState extends State<_StreamManifestPlayer> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = VideoPlayerController.network(
-          widget.manifest.muxed.withHighestBitrate().url.toString())
+      _controller = VideoPlayerController.network(widget.manifest)
         ..initialize().then((_) async {
           // Prevent the screen of beign turned off automatically
           Wakelock.toggle(enable: true);

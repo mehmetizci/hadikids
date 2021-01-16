@@ -1,7 +1,7 @@
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 //import 'package:haydikids/core/models/youtube/video.dart';
 
-enum MediaInfoSetType { Video, Playlist }
+enum MediaInfoSetType { Video }
 
 class MediaInfoSet {
   SearchVideo videoFromSearch;
@@ -33,11 +33,5 @@ class MediaInfoSet {
   void updateVideoDetails(Video video) {
     videoDetails = video;
     //mediaTags.updateTextControllers(video, video.thumbnailSrc);
-  }
-
-  void updatePlaylistDetails(Playlist playlist) {
-    playlistDetails = playlist;
-    // mediaTags.updateTextControllersFromPlaylist(
-    //    playlist, playlist.thumbnails.maxResUrl);
   }
 }
