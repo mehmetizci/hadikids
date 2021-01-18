@@ -7,11 +7,12 @@ class Video extends Equatable {
   final String duration;
   final String snippet;
   final String uploadDate;
-  final String thumbnailSrc;
+  final String thumbnailUrl;
   final String views;
-  final String username;
+  final String channelName;
+  final String channelId;
   final String channelUrl;
-  final bool verified;
+  final String channelLogo;
 
   Video(
       {this.id,
@@ -20,11 +21,12 @@ class Video extends Equatable {
       this.duration,
       this.snippet,
       this.uploadDate,
-      this.thumbnailSrc,
+      this.thumbnailUrl,
       this.views,
-      this.username,
+      this.channelName,
+      this.channelId,
       this.channelUrl,
-      this.verified});
+      this.channelLogo});
 
   static Video fromJson(Map<String, dynamic> json) {
     final id = json['id'];
@@ -33,11 +35,12 @@ class Video extends Equatable {
     final duration = json['duration'];
     final snippet = json['snippet'];
     final uploadDate = json['upload_date'];
-    final thumbnailSrc = json['thumbnail_src'];
+    final thumbnailUrl = json['thumbnailUrl'];
     final views = json['views'];
-    final username = json['username'];
+    final channelName = json['channelName'];
+    final channelId = json['channelId'];
     final channelUrl = json['channel_url'];
-    final verified = json['verified'];
+    final channelLogo = json['channelLogo'];
 
     return Video(
       id: id,
@@ -46,11 +49,12 @@ class Video extends Equatable {
       duration: duration,
       snippet: snippet,
       uploadDate: uploadDate,
-      thumbnailSrc: thumbnailSrc,
+      thumbnailUrl: thumbnailUrl,
       views: views,
-      username: username,
+      channelName: channelName,
+      channelId: channelId,
       channelUrl: channelUrl,
-      verified: verified,
+      channelLogo: channelLogo,
     );
   }
 
@@ -61,11 +65,12 @@ class Video extends Equatable {
         "duration": duration == null ? null : duration,
         "snippet": snippet == null ? null : snippet,
         "upload_date": uploadDate == null ? null : uploadDate,
-        "thumbnail_src": thumbnailSrc == null ? null : thumbnailSrc,
+        "thumbnailUrl": thumbnailUrl == null ? null : thumbnailUrl,
         "views": views == null ? null : views,
-        "username": username == null ? null : username,
+        "channelName": channelName == null ? null : channelName,
+        "channelId": channelId == null ? null : channelId,
         "channel_url": channelUrl == null ? null : channelUrl,
-        "verified": verified == null ? null : verified,
+        "channelLogo": channelLogo == null ? null : channelLogo,
       };
 
   @override
@@ -76,10 +81,11 @@ class Video extends Equatable {
         duration,
         snippet,
         uploadDate,
-        thumbnailSrc,
+        thumbnailUrl,
         views,
-        username,
+        channelName,
+        channelId,
         channelUrl,
-        verified,
+        channelLogo,
       ];
 }

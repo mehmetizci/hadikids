@@ -22,7 +22,8 @@ import 'package:haydikids/utils/ui/components/popupMenu.dart';
 import 'package:haydikids/utils/ui/dialogs/loadingDialog.dart';
 import 'package:haydikids/utils/ui/snackbar.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:haydikids/core/models/youtube/models.dart';
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class VideoTile extends StatelessWidget {
   final searchItem;
@@ -57,12 +58,6 @@ class VideoTile extends StatelessWidget {
                     return YoutubePlayerVideoPage(
                         url: searchItem.id.value,
                         thumbnailUrl: searchItem.thumbnails.highResUrl);
-                  } else if (searchItem is SearchVideo) {
-                    return YoutubePlayerVideoPage(
-                      url: searchItem.videoId.value,
-                      thumbnailUrl:
-                          searchItem.videoThumbnails.last.url.toString(),
-                    );
                   } else {
                     return Container();
                   }
@@ -79,11 +74,7 @@ class VideoTile extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     children: [
                       Hero(
-                        tag: searchItem is Video
-                            ? searchItem.id.value + "player"
-                            : searchItem is SearchVideo
-                                ? searchItem.videoId.value + "player"
-                                : searchItem.playlistId.value + "player",
+                        tag: searchItem.id.value + "player",
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
                           child: Container(
@@ -93,7 +84,7 @@ class VideoTile extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Transform.scale(
-                                scale: searchItem is Video ? 1.1 : 1.0,
+                                scale: 1.1,
                                 child: FadeInImage(
                                   fadeInDuration: Duration(milliseconds: 200),
                                   placeholder: MemoryImage(kTransparentImage),
@@ -107,18 +98,6 @@ class VideoTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (searchItem is SearchPlaylist)
-                        Container(
-                          margin: EdgeInsets.only(left: 12, right: 12),
-                          decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.4),
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 25,
-                          child: Center(
-                            child: Icon(EvaIcons.musicOutline,
-                                color: Colors.white, size: 20),
-                          ),
-                        )
                     ],
                   );
                 }),
@@ -131,7 +110,7 @@ class VideoTile extends StatelessWidget {
                   child: FutureBuilder<String>(
                       future: _getChannelLogoUrl(context),
                       builder: (context, AsyncSnapshot<String> snapshot) {
-                        if (snapshot.hasData || searchItem is SearchPlaylist) {
+                        if (snapshot.hasData) {
                           String channelLogo = snapshot.data;
                           return GestureDetector(
                             onTap: () {
@@ -147,48 +126,25 @@ class VideoTile extends StatelessWidget {
                                               name: video.author,
                                               logoUrl: channelLogo,
                                             )));
-                              } else if (searchItem is SearchVideo) {
-                                SearchVideo video = searchItem;
-                                Navigator.push(
-                                    context,
-                                    BlurPageRoute(
-                                        blurStrength:
-                                            prefs.enableBlurUI ? 20 : 0,
-                                        builder: (_) => YoutubeChannelPage(
-                                              id: video.videoId.value,
-                                              name: video.videoAuthor,
-                                              logoUrl: channelLogo,
-                                            )));
                               }
                             },
                             child: Hero(
-                              tag: searchItem is Video
-                                  ? searchItem.id.value
-                                  : searchItem is SearchVideo
-                                      ? searchItem.videoId.value
-                                      : searchItem.playlistId.value,
+                              tag: searchItem.id.value,
                               child: Container(
                                 height: 50,
                                 width: 50,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
                                     color: Colors.black.withOpacity(0.05)),
-                                child: searchItem is Video ||
-                                        searchItem is SearchVideo
-                                    ? ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        child: ImageFade(
-                                          fadeDuration:
-                                              Duration(milliseconds: 200),
-                                          image: channelLogo != null
-                                              ? NetworkImage(channelLogo)
-                                              : MemoryImage(kTransparentImage),
-                                        ),
-                                      )
-                                    : Icon(MdiIcons.playlistMusicOutline,
-                                        color:
-                                            Theme.of(context).iconTheme.color),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: ImageFade(
+                                    fadeDuration: Duration(milliseconds: 200),
+                                    image: channelLogo != null
+                                        ? NetworkImage(channelLogo)
+                                        : MemoryImage(kTransparentImage),
+                                  ),
+                                ),
                               ),
                             ),
                           );
@@ -211,24 +167,15 @@ class VideoTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          searchItem is Video
-                              ? "${searchItem.title}"
-                              : searchItem is SearchVideo
-                                  ? "${searchItem.videoTitle}"
-                                  : "${searchItem.playlistTitle}",
+                          "${searchItem.title}",
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 13),
                           overflow: TextOverflow.clip,
                         ),
                         SizedBox(height: 4),
                         Text(
-                          searchItem is Video
-                              ? "${searchItem.author} • " +
-                                  "${NumberFormat.compact().format(searchItem.engagement.viewCount)} views"
-                              : searchItem is SearchVideo
-                                  ? "${searchItem.videoAuthor} • " +
-                                      "${NumberFormat.compact().format(searchItem.videoViewCount)} views"
-                                  : "Playlist • ${searchItem.playlistVideoCount} videos",
+                          "${searchItem.author} • " +
+                              "${NumberFormat.compact().format(searchItem.engagement.viewCount)} views",
                           style: TextStyle(
                               color: Theme.of(context)
                                   .textTheme
@@ -242,7 +189,7 @@ class VideoTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (searchItem is SearchVideo || searchItem is Video)
+                if (searchItem is Video)
                   FlexiblePopupMenu(
                     items: [
                       "Share",
@@ -255,18 +202,12 @@ class VideoTile extends StatelessWidget {
                     onItemTap: (String value) async {
                       switch (value) {
                         case "Share":
-                          Share.share(searchItem is Video
-                              ? "https://www.youtube.com/watch?v=${searchItem.id.value}"
-                              : searchItem is SearchVideo
-                                  ? "https://www.youtube.com/watch?v=${searchItem.videoId.value}"
-                                  : "https://www.youtube.com/playlist?list=${searchItem.PlaylistId.value}");
+                          Share.share(
+                              "https://www.youtube.com/watch?v=${searchItem.id.value}");
                           break;
                         case "Copy Link":
-                          String link = searchItem is Video
-                              ? "https://www.youtube.com/watch?v=${searchItem.id.value}"
-                              : searchItem is SearchVideo
-                                  ? "https://www.youtube.com/watch?v=${searchItem.videoId.value}"
-                                  : "https://www.youtube.com/playlist?list=${searchItem.PlaylistId.value}";
+                          String link =
+                              "https://www.youtube.com/watch?v=${searchItem.id.value}";
                           Clipboard.setData(ClipboardData(text: link));
                           final scaffold = Scaffold.of(context);
                           AppSnack.showSnackBar(
@@ -287,9 +228,8 @@ class VideoTile extends StatelessWidget {
                               clipBehavior: Clip.antiAlias,
                               context: context,
                               builder: (context) {
-                                String url = searchItem is SearchVideo
-                                    ? "http://youtube.com/watch?v=${searchItem.videoId.value}"
-                                    : "http://youtube.com/watch?v=${searchItem.id.value}";
+                                String url =
+                                    "http://youtube.com/watch?v=${searchItem.videoId.value}";
                                 return Wrap(
                                   children: [
                                     DownloadMenu(
@@ -306,17 +246,9 @@ class VideoTile extends StatelessWidget {
                           break;
                         case "Add to Favorites":
                           Video videoToSave;
-                          if (searchItem is SearchVideo) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (_) => LoadingDialog());
-                            videoToSave = await manager.youtubeExtractor
-                                .getVideoDetails(searchItem.videoId);
-                            Navigator.pop(context);
-                          } else {
-                            videoToSave = searchItem;
-                          }
+
+                          videoToSave = searchItem;
+
                           List<Video> videos = prefs.favoriteVideos;
                           videos.add(videoToSave);
                           prefs.favoriteVideos = videos;
@@ -328,17 +260,9 @@ class VideoTile extends StatelessWidget {
                           break;
                         case "Add to Watch Later":
                           Video videoToSave;
-                          if (searchItem is SearchVideo) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (_) => LoadingDialog());
-                            videoToSave = await manager.youtubeExtractor
-                                .getVideoDetails(searchItem.videoId);
-                            Navigator.pop(context);
-                          } else {
-                            videoToSave = searchItem;
-                          }
+
+                          videoToSave = searchItem;
+
                           List<Video> videos = prefs.watchLaterVideos;
                           videos.add(videoToSave);
                           prefs.watchLaterVideos = videos;
@@ -369,9 +293,6 @@ class VideoTile extends StatelessWidget {
     if (searchItem is Video) {
       String link = searchItem.thumbnails.highResUrl;
       return link;
-    } else if (searchItem is SearchVideo) {
-      String link = searchItem.videoThumbnails.last.url.toString();
-      return link;
     }
   }
 
@@ -379,14 +300,7 @@ class VideoTile extends StatelessWidget {
     ManagerProvider manager = Provider.of<ManagerProvider>(context);
     if (searchItem is Video) {
       Video video = searchItem;
-      Channel channel =
-          await manager.youtubeExtractor.getChannelByVideoId(video.id);
-      return channel.logoUrl;
-    } else if (searchItem is SearchVideo) {
-      SearchVideo video = searchItem;
-      return await ChannelLogo.getChannelLogoUrl(context, video);
-    } else {
-      return null;
+      return video.channelLogo;
     }
   }
 }

@@ -18,6 +18,7 @@ import 'package:haydikids/utils/ui/snackbar.dart';
 
 // Packages
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:haydikids/core/models/youtube/models.dart';
 
 enum CurrentDownloadMenu { Home, Audio, Video, Loading }
 

@@ -10,7 +10,8 @@ import 'package:youtube_data_api/youtube_data_api.dart';
 //import 'package:haydikids/core/youtube/youtubeExtractor.dart';
 
 // Packages
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:haydikids/core/models/youtube/models.dart';
 
 enum HomeScreenTab { Home, Trending, Music, Favorites, WatchLater }
 
@@ -121,7 +122,7 @@ class ManagerProvider extends ChangeNotifier {
   // ---------------
   // URL Controller
   //
-  //TextEditingController urlController;
+  TextEditingController urlController;
   // ----------------------------------
 
   // -------------------
@@ -250,13 +251,6 @@ class ManagerProvider extends ChangeNotifier {
       int currentIndex = mediaInfoSet.autoPlayIndex;
       if (currentIndex <= mediaInfoSet.relatedVideos.length - 1) {
         updateMediaInfoSet(mediaInfoSet.relatedVideos[currentIndex + 1],
-            mediaInfoSet.relatedVideos);
-        mediaInfoSet.autoPlayIndex += 1;
-      }
-    } else {
-      int currentIndex = mediaInfoSet.autoPlayIndex;
-      if (currentIndex <= mediaInfoSet.playlistVideos.length - 1) {
-        updateMediaInfoSet(mediaInfoSet.playlistVideos[currentIndex + 1],
             mediaInfoSet.relatedVideos);
         mediaInfoSet.autoPlayIndex += 1;
       }

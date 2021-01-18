@@ -14,8 +14,8 @@ import 'package:haydikids/config/routes/components/relatedVideosList.dart';
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerArtworkEditor.dart';
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerVideoComments.dart';
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerVideoEngagement.dart';
-import 'package:haydikids/config/routes/components/video/videoDownloadFab.dart';
-import 'package:haydikids/core/downloadMenu/downloadMenu.dart';
+//import 'package:haydikids/config/routes/components/video/videoDownloadFab.dart';
+//import 'package:haydikids/core/downloadMenu/downloadMenu.dart';
 import 'package:haydikids/utils/ui/animations/fadeIn.dart';
 import 'package:haydikids/utils/ui/components/measureSize.dart';
 import 'package:haydikids/utils/ui/snackbar.dart';
@@ -23,6 +23,7 @@ import 'package:haydikids/utils/ui/snackbar.dart';
 import 'package:haydikids/core/models/youtube/video.dart';
 import 'components/video/videoDetails.dart';
 import 'components/video/videoEngagement.dart';
+import 'package:haydikids/core/models/youtube/models.dart';
 
 class YoutubePlayerVideoPage extends StatefulWidget {
   final String url;
@@ -109,28 +110,16 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
                   SizedBox(height: 12),
                   // Video Details
                   VideoDetails(
-                      title: manager.mediaInfoSet.videoFromSearch.videoTitle,
-                      author: manager.mediaInfoSet.videoFromSearch.videoAuthor,
+                      title: manager.mediaInfoSet.videoDetails.title,
+                      author: manager.mediaInfoSet.videoDetails.channelName,
                       duration: manager.mediaInfoSet.videoDetails != null
-                          ? manager.mediaInfoSet.videoDetails.duration.inMinutes
-                                  .remainder(60)
-                                  .toString()
-                                  .padLeft(2, '0') +
-                              " min " +
-                              manager
-                                  .mediaInfoSet.videoDetails.duration.inSeconds
-                                  .remainder(60)
-                                  .toString()
-                                  .padLeft(2, '0') +
-                              " sec"
+                          ? manager.mediaInfoSet.videoDetails.duration + " min "
                           : null,
                       date: manager.mediaInfoSet.videoDetails != null
-                          ? "${manager.mediaInfoSet.videoDetails.uploadDate.year}/" +
-                              "${manager.mediaInfoSet.videoDetails.uploadDate.month}/" +
-                              "${manager.mediaInfoSet.videoDetails.uploadDate.day}"
+                          ? "${manager.mediaInfoSet.videoDetails.uploadDate}"
                           : null,
-                      channelLogo: manager.mediaInfoSet.channelDetails != null
-                          ? manager.mediaInfoSet.channelDetails.logoUrl
+                      channelLogo: manager.mediaInfoSet.videoDetails != null
+                          ? manager.mediaInfoSet.videoDetails.channelLogo
                           : null),
                   // ---------------------------------------
                   // Likes, dislikes, Views and Share button
@@ -300,7 +289,7 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
           ),
         ]),
       ),
-      floatingActionButton: VideoDownloadFab(
+      /*floatingActionButton: VideoDownloadFab(
         readyToDownload: manager.mediaInfoSet.streamManifest == null ||
                 manager.mediaInfoSet.videoDetails == null
             ? false
@@ -329,7 +318,7 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
                 );
               });
         },
-      ),
+      ),*/
     );
   }
 }

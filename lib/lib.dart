@@ -97,25 +97,6 @@ class _LibState extends State<Lib> {
                       thumbnailUrl: video.thumbnails.highResUrl,
                     )));
       }
-      if (PlaylistId.parsePlaylistId(intent) != null) {
-        String id = PlaylistId.parsePlaylistId(intent);
-        showDialog(context: context, builder: (_) => LoadingDialog());
-        YoutubeExplode yt = YoutubeExplode();
-        Playlist playlist = await yt.playlists.get(id);
-        Provider.of<ManagerProvider>(context, listen: false)
-            .updateMediaInfoSet(playlist, null);
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            BlurPageRoute(
-                blurStrength:
-                    Provider.of<PreferencesProvider>(context, listen: false)
-                            .enableBlurUI
-                        ? 20
-                        : 0,
-                slideOffset: Offset(0.0, 10.0),
-                builder: (_) => YoutubePlayerPlaylistPage()));
-      }
       return;
     }));
     Provider.of<MediaProvider>(context, listen: false).loadSongList();

@@ -1,31 +1,26 @@
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-//import 'package:haydikids/core/models/youtube/video.dart';
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:haydikids/core/models/youtube/video.dart';
 
 enum MediaInfoSetType { Video }
 
 class MediaInfoSet {
-  SearchVideo videoFromSearch;
-  SearchPlaylist playlistFromSearch;
+  //SearchPlaylist playlistFromSearch;
   MediaInfoSetType mediaType;
   Video videoDetails;
-  Playlist playlistDetails;
-  List<Video> playlistVideos;
-  Channel channelDetails;
-  StreamManifest streamManifest;
+  //Playlist playlistDetails;
+  //List<Video> playlistVideos;
+
+  String streamManifest;
 
   List<Video> relatedVideos;
   int autoPlayIndex;
 
   MediaInfoSet(
-      {this.videoFromSearch,
-      this.playlistFromSearch,
-      this.mediaType,
+      {this.mediaType,
       this.videoDetails,
-      this.playlistDetails,
       this.streamManifest,
-      this.channelDetails,
       this.relatedVideos}) {
-    playlistVideos = List<Video>();
+    // playlistVideos = List<Video>();
     relatedVideos = this.relatedVideos ?? List<Video>();
     autoPlayIndex = 0;
   }

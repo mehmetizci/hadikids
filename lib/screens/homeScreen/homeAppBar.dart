@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:haydikids/provider/configProvider.dart';
 import 'package:haydikids/provider/managerProvider.dart';
 import 'package:haydikids/provider/preferencesProvider.dart';
-import 'package:haydikids/config/routes/playlist.dart';
 import 'package:haydikids/config/routes/video.dart';
 import 'package:haydikids/utils/ui/animations/blurPageRoute.dart';
 import 'package:haydikids/utils/ui/components/searchBar.dart';
@@ -61,21 +60,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                               )));
                   return;
                 }
-                if (PlaylistId.parsePlaylistId(searchQuery) != null) {
-                  String id = PlaylistId.parsePlaylistId(searchQuery);
-                  showDialog(context: context, builder: (_) => LoadingDialog());
-                  YoutubeExplode yt = YoutubeExplode();
-                  Playlist playlist = await yt.playlists.get(id);
-                  manager.updateMediaInfoSet(playlist, null);
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      BlurPageRoute(
-                          blurStrength: prefs.enableBlurUI ? 20 : 0,
-                          slideOffset: Offset(0.0, 10.0),
-                          builder: (_) => YoutubePlayerPlaylistPage()));
-                  return;
-                }
+
                 manager.youtubeSearchQuery = manager.urlController.text;
                 manager.updateYoutubeSearchResults(updateResults: true);
                 if (searchQuery.length > 1) {
