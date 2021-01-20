@@ -158,7 +158,7 @@ class _LibState extends State<Lib> {
 
   @override
   Widget build(BuildContext context) {
-    //ManagerProvider manager = Provider.of<ManagerProvider>(context);
+    // ManagerProvider manager = Provider.of<ManagerProvider>(context);
     MediaProvider mediaProvider = Provider.of<MediaProvider>(context);
     Brightness _systemBrightness = Theme.of(context).brightness;
     Brightness _statusBarBrightness = _systemBrightness == Brightness.light
@@ -236,10 +236,10 @@ class _LibState extends State<Lib> {
     if (manager.screenIndex == 0) {
       return HomeScreen();
     } else if (manager.screenIndex == 1) {
-      return Container();
+      return HomeScreen();
       //DownloadTab();
     } else if (manager.screenIndex == 2) {
-      return Container();
+      return HomeScreen();
       // MediaScreen();
     } else if (manager.screenIndex == 3) {
       return LibraryScreen();

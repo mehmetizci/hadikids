@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_fade/image_fade.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share/share.dart';
-import 'package:haydikids/core/downloadMenu/downloadMenu.dart';
+//import 'package:haydikids/core/downloadMenu/downloadMenu.dart';
 import 'package:haydikids/core/models/channelLogo.dart';
 
 // Internal
@@ -194,11 +194,11 @@ class VideoTile extends StatelessWidget {
                                     "http://youtube.com/watch?v=${searchItem.id}";
                                 return Wrap(
                                   children: [
-                                    DownloadMenu(
+                                    /* DownloadMenu(
                                       videoUrl: url,
                                       scaffoldState: manager
                                           .libraryScaffoldKey.currentState,
-                                    ),
+                                    ),*/
                                   ],
                                 );
                               });

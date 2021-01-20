@@ -11,12 +11,10 @@ import 'package:haydikids/core/haydiPreferences.dart';
 import 'package:haydikids/provider/configProvider.dart';
 import 'package:haydikids/intro/introduction.dart';
 import 'package:haydikids/screens/home.dart';
-/*import 'package:hadikids/provider/downloadsProvider.dart';
-import 'package:hadikids/provider/managerProvider.dart';
-
-import 'package:hadikids/lib.dart';
-
-import 'package:hadikids/provider/mediaProvider.dart';*/
+import 'package:haydikids/provider/managerProvider.dart';
+import 'package:haydikids/provider/mediaProvider.dart';
+import 'package:haydikids/lib.dart';
+/*import 'package:hadikids/provider/downloadsProvider.dart';*/
 
 // Packages
 import 'package:audio_service/audio_service.dart';
@@ -67,22 +65,21 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    /* List lastSearchQuery =
+    List lastSearchQuery =
         (jsonDecode(widget.preloadedFs.getSearchHistory()) as List<dynamic>)
-            .cast<String>();*/
+            .cast<String>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ConfigProvider>(
             create: (context) =>
                 ConfigProvider(preferences: widget.preloadedFs)),
-        /* ChangeNotifierProvider<ManagerProvider>(
-            create: (context) => ManagerProvider(lastSearchQuery.isNotEmpty
-                ? lastSearchQuery[0]
-                : RandomString.getRandomLetter())),
-        ChangeNotifierProvider<DownloadsProvider>(
-            create: (context) => DownloadsProvider()),
+        ChangeNotifierProvider<ManagerProvider>(
+            create: (context) => ManagerProvider(
+                lastSearchQuery.isNotEmpty ? lastSearchQuery[0] : "tarkan")),
+        /* ChangeNotifierProvider<DownloadsProvider>(
+            create: (context) => DownloadsProvider()),*/
         ChangeNotifierProvider<MediaProvider>(
-            create: (context) => MediaProvider()),*/
+            create: (context) => MediaProvider()),
         ChangeNotifierProvider<PreferencesProvider>(
           create: (context) => PreferencesProvider(),
         )

@@ -214,7 +214,8 @@ class ManagerProvider extends ChangeNotifier {
   // Search for Videos on Youtube
   void updateYoutubeSearchResults({bool updateResults = false}) async {
     int resultsCounter = 0;
-    if (updateResults || youtubeSearchStream == null) {
+    return;
+    /*if (updateResults || youtubeSearchStream == null) {
       searchResultsLength = 10;
       searchStreamRunning = true;
       youtubeSearchResults.clear();
@@ -233,7 +234,7 @@ class ManagerProvider extends ChangeNotifier {
     } else {
       resultsCounter = 0;
       youtubeSearchStream.resume();
-    }
+    }*/
   }
 
   // Update Stream Video Player
