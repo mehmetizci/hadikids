@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:haydikids/core/models/youtube/models.dart';
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class RelatedVideosList extends StatelessWidget {
   final List<Video> relatedVideos;
@@ -55,7 +56,7 @@ class RelatedVideosList extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.6),
                                 borderRadius: BorderRadius.circular(20)),
                             child: Text(
-                              "${video.duration}" + " min",
+                              "${video.duration}:",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 8),
                             ),

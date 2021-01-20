@@ -7,9 +7,9 @@ import 'package:haydikids/config/languages.dart';
 import 'package:haydikids/screens/homeScreen/components/roundTile.dart';
 
 class VideoEngagement extends StatelessWidget {
-  final int likeCount;
-  final int dislikeCount;
-  final int viewCount;
+  final String likeCount;
+  final String dislikeCount;
+  final String viewCount;
   final String videoUrl;
   final Function onSaveToFavorite;
   VideoEngagement(

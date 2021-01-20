@@ -68,7 +68,7 @@ dependencies:
       ref: master
   youtube_data_api:
     git:
-      url: https://github.com/mehmetizci/YoutubeDataApi.git
+      url: https://github.com/mehmetizci/youtube_data_api.git
       ref: main
   autolist:
     git:

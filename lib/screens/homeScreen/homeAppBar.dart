@@ -3,12 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:haydikids/provider/configProvider.dart';
 import 'package:haydikids/provider/managerProvider.dart';
 import 'package:haydikids/provider/preferencesProvider.dart';
+//import 'package:haydikids/config/routes/playlist.dart';
 import 'package:haydikids/config/routes/video.dart';
 import 'package:haydikids/utils/ui/animations/blurPageRoute.dart';
 import 'package:haydikids/utils/ui/components/searchBar.dart';
 import 'package:haydikids/utils/ui/dialogs/loadingDialog.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
+import 'package:haydikids/core/models/youtube/models.dart';
+import 'package:youtube_data_api/youtube_data_api.dart';
 
 class HomePageAppBar extends StatefulWidget {
   final bool openSearch;
@@ -42,11 +45,11 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                 widget.onSearch();
                 manager.searchBarFocusNode.unfocus();
                 manager.showSearchBar = false;
-                if (VideoId.parseVideoId(searchQuery) != null) {
+                /* if (searchQuery != null) {
                   String id = VideoId.parseVideoId(searchQuery);
                   showDialog(context: context, builder: (_) => LoadingDialog());
-                  YoutubeExplode yt = YoutubeExplode();
-                  Video video = await yt.videos.get(id);
+                 // YoutubeExplode yt = YoutubeExplode();
+                  Video video = await YoutubeApi.getStreamManifest(id) ;
                   manager.updateMediaInfoSet(video, null);
                   Navigator.pop(context);
                   Navigator.push(
@@ -59,7 +62,7 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
                                 thumbnailUrl: video.thumbnails.highResUrl,
                               )));
                   return;
-                }
+                }*/
 
                 manager.youtubeSearchQuery = manager.urlController.text;
                 manager.updateYoutubeSearchResults(updateResults: true);

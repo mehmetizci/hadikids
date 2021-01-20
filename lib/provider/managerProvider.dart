@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:haydikids/core/models/infoSets/mediaInfoSet.dart';
 import 'package:youtube_data_api/youtube_data_api.dart';
+import 'package:haydikids/core/models/youtube/video.dart';
 // Internal
 //import 'package:haydikids/core/youtube/youtubeExtractor.dart';
 
 // Packages
 //import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:haydikids/core/models/youtube/models.dart';
 
 enum HomeScreenTab { Home, Trending, Music, Favorites, WatchLater }
 
@@ -24,7 +24,7 @@ class ManagerProvider extends ChangeNotifier {
     // Variables
     showSearchBar = false;
     searchBarFocusNode = FocusNode();
-    //urlController = new TextEditingController();
+    urlController = new TextEditingController();
     // HomeScreen
     homeScrollController = ScrollController();
     expandablePlayerPanelController = PanelController();
@@ -70,8 +70,8 @@ class ManagerProvider extends ChangeNotifier {
   // ---------------------
   // Stream Youtube Player
   // ---------------------
-  String playerStream;
-
+  StreamManifest playerStream;
+  TextEditingController urlController;
   // -----------
   // Home Screen
   // -----------
@@ -122,7 +122,7 @@ class ManagerProvider extends ChangeNotifier {
   // ---------------
   // URL Controller
   //
-  TextEditingController urlController;
+  //TextEditingController urlController;
   // ----------------------------------
 
   // -------------------
@@ -137,21 +137,12 @@ class ManagerProvider extends ChangeNotifier {
     if (searchMedia is Video) {
       Video video = searchMedia;
       mediaInfoSet.mediaType = MediaInfoSetType.Video;
-      mediaInfoSet.videoFromSearch = SearchVideo(VideoId(video.id.value),
-          video.title, video.author, null, null, null, [
-        Thumbnail(
-            Uri(
-                path: video.thumbnails.highResUrl
-                    .replaceAll("https://i.ytimg.com", "")
-                    .replaceAll("https://img.youtube.com", "")),
-            null,
-            null)
-      ]);
-      VideoId id = mediaInfoSet.videoFromSearch.videoId;
+      mediaInfoSet.videoFromSearch = searchMedia;
+      String id = mediaInfoSet.videoFromSearch.id;
       mediaInfoSet.updateVideoDetails(video);
       notifyListeners();
       // Get the Channel Details
-      youtubeExtractor.getChannelByVideoId(id).then((value) {
+      /* youtubeExtractor.getChannelByVideoId(id).then((value) {
         mediaInfoSet.channelDetails = value;
         notifyListeners();
       });
@@ -164,14 +155,15 @@ class ManagerProvider extends ChangeNotifier {
       } else {
         mediaInfoSet.relatedVideos = relatedVideos;
         notifyListeners();
-      }
+      }*/
       // Get the StreamManifest for Downloads
-      youtubeExtractor.getStreamManifest(id).then((value) {
+      YoutubeApi.getStreamManifest(id).then((value) {
         mediaInfoSet.streamManifest = value;
         playerStream = value;
         notifyListeners();
       });
-    } else if (searchMedia is SearchVideo) {
+    }
+    /*else if (searchMedia is SearchVideo) {
       // Get current Search Video and update the YoutubePlayerController
       mediaInfoSet.mediaType = MediaInfoSetType.Video;
       mediaInfoSet.videoFromSearch = searchMedia;
@@ -206,14 +198,14 @@ class ManagerProvider extends ChangeNotifier {
         notifyListeners();
       });
       notifyListeners();
-    }
+    }*/
   }
 
   // Manually update Stream Youtube Player
   void updateStreamManifestPlayer(String id) {
     playerStream = null;
     notifyListeners();
-    YoutubeApi.getVideoUrl(id).then((value) {
+    YoutubeApi.getStreamManifest(id).then((value) {
       playerStream = value;
       notifyListeners();
     });
@@ -231,10 +223,9 @@ class ManagerProvider extends ChangeNotifier {
         await youtubeSearchStream.cancel();
         youtubeSearchStream = null;
       }
-      youtubeSearchStream = YoutubeExplode()
-          .search
-          .getVideosFromPage(youtubeSearchQuery)
-          .listen((event) {
+      youtubeSearchStream =
+          await YoutubeApi.getStreamManifest(youtubeSearchQuery).listen(
+              (event) {
         print(resultsCounter);
         resultsCounter++;
         updateSearchResults(event);
@@ -255,6 +246,14 @@ class ManagerProvider extends ChangeNotifier {
         mediaInfoSet.autoPlayIndex += 1;
       }
     }
+    /* else {
+      int currentIndex = mediaInfoSet.autoPlayIndex;
+      if (currentIndex <= mediaInfoSet.playlistVideos.length - 1) {
+        updateMediaInfoSet(mediaInfoSet.playlistVideos[currentIndex + 1],
+            mediaInfoSet.relatedVideos);
+        mediaInfoSet.autoPlayIndex += 1;
+      }
+    }*/
   }
 
   void setState() {

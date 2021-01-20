@@ -1,3 +1,4 @@
+// Flutter
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,15 +9,15 @@ import 'package:haydikids/core/nativeMethods.dart';
 //import 'package:haydikids/core/updateChecker.dart';
 import 'package:haydikids/utils/players/components/musicPlayer/playerPadding.dart';
 import 'package:haydikids/provider/configProvider.dart';
-import 'package:haydikids/provider/downloadsProvider.dart';
+//import 'package:haydikids/provider/downloadsProvider.dart';
 import 'package:haydikids/provider/managerProvider.dart';
 import 'package:haydikids/provider/mediaProvider.dart';
 import 'package:haydikids/provider/preferencesProvider.dart';
 //import 'package:haydikids/config/routes/playlist.dart';
 import 'package:haydikids/config/routes/video.dart';
-import 'package:haydikids/screens/downloads.dart';
+//import 'package:haydikids/screens/downloads.dart';
 import 'package:haydikids/screens/home.dart';
-import 'package:haydikids/screens/media.dart';
+//import 'package:haydikids/screens/media.dart';
 import 'package:haydikids/screens/library.dart';
 import 'package:haydikids/utils/players/musicPlayer.dart';
 
@@ -32,7 +33,7 @@ import 'package:haydikids/utils/ui/dialogs/loadingDialog.dart';
 import 'package:haydikids/utils/ui/disclaimerDialog.dart';
 import 'package:haydikids/utils/ui/downloadFixDialog.dart';
 import 'package:haydikids/utils/ui/lifecycleEvents.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class MainLib extends StatelessWidget {
   @override
@@ -54,14 +55,14 @@ class _LibState extends State<Lib> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.renderView.automaticSystemUiAdjustment = false;
-    KeyboardVisibility.onChange.listen((bool visible) {
+    KeyboardVisibilityController().onChange.listen((bool visible) {
       if (visible == false) FocusScope.of(context).unfocus();
     });
-    WidgetsBinding.instance
+    /*WidgetsBinding.instance
         .addObserver(new LifecycleEventHandler(resumeCallBack: () async {
       PreferencesProvider prefs =
           Provider.of<PreferencesProvider>(context, listen: false);
-      DownloadsProvider downloads =
+      /* DownloadsProvider downloads =
           Provider.of<DownloadsProvider>(context, listen: false);
       if (downloads.queueList.isNotEmpty ||
           downloads.downloadingList.isNotEmpty ||
@@ -72,7 +73,7 @@ class _LibState extends State<Lib> {
           showDialog<void>(
               context: context, builder: (_) => JoinTelegramDialog());
         }
-      }
+      }*/
       String intent = await NativeMethod.handleIntent();
       if (intent == null) return;
       if (VideoId.parseVideoId(intent) != null) {
@@ -97,8 +98,27 @@ class _LibState extends State<Lib> {
                       thumbnailUrl: video.thumbnails.highResUrl,
                     )));
       }
+      if (PlaylistId.parsePlaylistId(intent) != null) {
+        String id = PlaylistId.parsePlaylistId(intent);
+        showDialog(context: context, builder: (_) => LoadingDialog());
+        YoutubeExplode yt = YoutubeExplode();
+        Playlist playlist = await yt.playlists.get(id);
+        Provider.of<ManagerProvider>(context, listen: false)
+            .updateMediaInfoSet(playlist, null);
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            BlurPageRoute(
+                blurStrength:
+                    Provider.of<PreferencesProvider>(context, listen: false)
+                            .enableBlurUI
+                        ? 20
+                        : 0,
+                slideOffset: Offset(0.0, 10.0),
+                builder: (_) => YoutubePlayerPlaylistPage()));
+      }
       return;
-    }));
+    }));*/
     Provider.of<MediaProvider>(context, listen: false).loadSongList();
     Provider.of<MediaProvider>(context, listen: false).loadVideoList();
     // Disclaimer
@@ -121,7 +141,7 @@ class _LibState extends State<Lib> {
             .showDownloadFixDialog = false;
       }
       // Check for Updates
-      PackageInfo.fromPlatform().then((android) {
+      /* PackageInfo.fromPlatform().then((android) {
         double appVersion =
             double.parse(android.version.replaceRange(3, 5, ""));
         getLatestRelease().then((details) {
@@ -132,7 +152,7 @@ class _LibState extends State<Lib> {
                 builder: (context) => AppUpdateDialog(details));
           }
         });
-      });
+      });*/
     });
   }
 
@@ -216,9 +236,11 @@ class _LibState extends State<Lib> {
     if (manager.screenIndex == 0) {
       return HomeScreen();
     } else if (manager.screenIndex == 1) {
-      return DownloadTab();
+      return Container();
+      //DownloadTab();
     } else if (manager.screenIndex == 2) {
-      return MediaScreen();
+      return Container();
+      // MediaScreen();
     } else if (manager.screenIndex == 3) {
       return LibraryScreen();
     } else {

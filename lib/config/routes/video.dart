@@ -14,7 +14,7 @@ import 'package:haydikids/config/routes/components/relatedVideosList.dart';
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerArtworkEditor.dart';
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerVideoComments.dart';
 import 'package:haydikids/config/routes/components/video/shimmer/shimmerVideoEngagement.dart';
-//import 'package:haydikids/config/routes/components/video/videoDownloadFab.dart';
+import 'package:haydikids/config/routes/components/video/videoDownloadFab.dart';
 //import 'package:haydikids/core/downloadMenu/downloadMenu.dart';
 import 'package:haydikids/utils/ui/animations/fadeIn.dart';
 import 'package:haydikids/utils/ui/components/measureSize.dart';
@@ -23,7 +23,6 @@ import 'package:haydikids/utils/ui/snackbar.dart';
 import 'package:haydikids/core/models/youtube/video.dart';
 import 'components/video/videoDetails.dart';
 import 'components/video/videoEngagement.dart';
-import 'package:haydikids/core/models/youtube/models.dart';
 
 class YoutubePlayerVideoPage extends StatefulWidget {
   final String url;
@@ -110,10 +109,10 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
                   SizedBox(height: 12),
                   // Video Details
                   VideoDetails(
-                      title: manager.mediaInfoSet.videoDetails.title,
-                      author: manager.mediaInfoSet.videoDetails.channelName,
+                      title: manager.mediaInfoSet.videoFromSearch.title,
+                      author: manager.mediaInfoSet.videoFromSearch.channelName,
                       duration: manager.mediaInfoSet.videoDetails != null
-                          ? manager.mediaInfoSet.videoDetails.duration + " min "
+                          ? manager.mediaInfoSet.videoDetails.duration
                           : null,
                       date: manager.mediaInfoSet.videoDetails != null
                           ? "${manager.mediaInfoSet.videoDetails.uploadDate}"
@@ -134,12 +133,12 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
                               children: [
                                 SizedBox(height: 12),
                                 VideoEngagement(
-                                  likeCount: manager.mediaInfoSet.videoDetails
-                                      .engagement.likeCount,
-                                  dislikeCount: manager.mediaInfoSet
-                                      .videoDetails.engagement.dislikeCount,
-                                  viewCount: manager.mediaInfoSet.videoDetails
-                                      .engagement.viewCount,
+                                  likeCount: manager
+                                      .mediaInfoSet.videoDetails.likeCount,
+                                  dislikeCount: manager
+                                      .mediaInfoSet.videoDetails.dislikeCount,
+                                  viewCount:
+                                      manager.mediaInfoSet.videoDetails.views,
                                   videoUrl:
                                       manager.mediaInfoSet.videoDetails.url,
                                   onSaveToFavorite: () {
@@ -289,7 +288,7 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
           ),
         ]),
       ),
-      /*floatingActionButton: VideoDownloadFab(
+      floatingActionButton: VideoDownloadFab(
         readyToDownload: manager.mediaInfoSet.streamManifest == null ||
                 manager.mediaInfoSet.videoDetails == null
             ? false
@@ -308,17 +307,17 @@ class _YoutubePlayerVideoPageState extends State<YoutubePlayerVideoPage> {
               builder: (context) {
                 return Wrap(
                   children: [
-                    DownloadMenu(
+                    /* DownloadMenu(
                       streamManifest: manager.mediaInfoSet.streamManifest,
                       tags: manager.mediaInfoSet.mediaTags,
                       videoDetails: manager.mediaInfoSet.videoDetails,
                       scaffoldState: scaffoldKey.currentState,
-                    ),
+                    ),*/
                   ],
                 );
               });
         },
-      ),*/
+      ),
     );
   }
 }

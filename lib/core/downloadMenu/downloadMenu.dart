@@ -15,10 +15,11 @@ import 'package:haydikids/provider/configProvider.dart';
 import 'package:haydikids/provider/downloadsProvider.dart';
 import 'package:haydikids/provider/managerProvider.dart';
 import 'package:haydikids/utils/ui/snackbar.dart';
+import 'package:youtube_data_api/youtube_data_api.dart';
+import 'package:haydikids/core/models/youtube/video.dart';
 
 // Packages
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:haydikids/core/models/youtube/models.dart';
+//import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 enum CurrentDownloadMenu { Home, Audio, Video, Loading }
 
@@ -98,7 +99,7 @@ class _DownloadMenuState extends State<DownloadMenu>
       case CurrentDownloadMenu.Audio:
         returnWidget = Container(
           child: AudioDownloadMenu(
-            audioList: manifest.audioOnly.sortByBitrate().reversed.toList(),
+            audioList: manifest.adaptiveAudio.toList(),
             onBack: () =>
                 setState(() => currentDownloadMenu = CurrentDownloadMenu.Home),
             onDownload: (list) => _initializeDownload(list),

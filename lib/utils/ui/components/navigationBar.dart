@@ -6,7 +6,7 @@ import 'package:cuberto_bottom_bar/cuberto_bottom_bar.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
-  final int onItemTap;
+  final Function(int) onItemTap;
   final PageController tabBarController = new PageController(initialPage: 0);
   final List<Tabs> tabs = new List();
 

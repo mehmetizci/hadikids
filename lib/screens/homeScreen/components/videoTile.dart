@@ -22,11 +22,12 @@ import 'package:haydikids/utils/ui/components/popupMenu.dart';
 import 'package:haydikids/utils/ui/dialogs/loadingDialog.dart';
 import 'package:haydikids/utils/ui/snackbar.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:haydikids/core/models/youtube/models.dart';
 //import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:youtube_data_api/youtube_data_api.dart';
+import 'package:haydikids/core/models/youtube/video.dart';
 
 class VideoTile extends StatelessWidget {
-  final searchItem;
+  final Video searchItem;
   final bool enableSaveToWatchLater;
   final bool enableSaveToFavorites;
   final Function() onDelete;
@@ -56,8 +57,8 @@ class VideoTile extends StatelessWidget {
                 builder: (_) {
                   if (searchItem is Video) {
                     return YoutubePlayerVideoPage(
-                        url: searchItem.id.value,
-                        thumbnailUrl: searchItem.thumbnails.highResUrl);
+                        url: searchItem.id,
+                        thumbnailUrl: searchItem.thumbnailUrl);
                   } else {
                     return Container();
                   }
@@ -74,7 +75,7 @@ class VideoTile extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     children: [
                       Hero(
-                        tag: searchItem.id.value + "player",
+                        tag: searchItem.id + "player",
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
                           child: Container(
@@ -84,7 +85,7 @@ class VideoTile extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Transform.scale(
-                                scale: 1.1,
+                                scale: searchItem is Video ? 1.1 : 1.0,
                                 child: FadeInImage(
                                   fadeInDuration: Duration(milliseconds: 200),
                                   placeholder: MemoryImage(kTransparentImage),
@@ -110,45 +111,7 @@ class VideoTile extends StatelessWidget {
                   child: FutureBuilder<String>(
                       future: _getChannelLogoUrl(context),
                       builder: (context, AsyncSnapshot<String> snapshot) {
-                        if (snapshot.hasData) {
-                          String channelLogo = snapshot.data;
-                          return GestureDetector(
-                            onTap: () {
-                              if (searchItem is Video) {
-                                Video video = searchItem;
-                                Navigator.push(
-                                    context,
-                                    BlurPageRoute(
-                                        blurStrength:
-                                            prefs.enableBlurUI ? 20 : 0,
-                                        builder: (_) => YoutubeChannelPage(
-                                              id: video.id.value,
-                                              name: video.author,
-                                              logoUrl: channelLogo,
-                                            )));
-                              }
-                            },
-                            child: Hero(
-                              tag: searchItem.id.value,
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.black.withOpacity(0.05)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: ImageFade(
-                                    fadeDuration: Duration(milliseconds: 200),
-                                    image: channelLogo != null
-                                        ? NetworkImage(channelLogo)
-                                        : MemoryImage(kTransparentImage),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        } else {
+                        {
                           return Container(
                             height: 50,
                             width: 50,
@@ -174,8 +137,7 @@ class VideoTile extends StatelessWidget {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "${searchItem.author} • " +
-                              "${NumberFormat.compact().format(searchItem.engagement.viewCount)} views",
+                          "${NumberFormat.compact().format(searchItem.views)} views",
                           style: TextStyle(
                               color: Theme.of(context)
                                   .textTheme
@@ -203,11 +165,11 @@ class VideoTile extends StatelessWidget {
                       switch (value) {
                         case "Share":
                           Share.share(
-                              "https://www.youtube.com/watch?v=${searchItem.id.value}");
+                              "https://www.youtube.com/watch?v=${searchItem.id}");
                           break;
                         case "Copy Link":
                           String link =
-                              "https://www.youtube.com/watch?v=${searchItem.id.value}";
+                              "https://www.youtube.com/watch?v=${searchItem.id}";
                           Clipboard.setData(ClipboardData(text: link));
                           final scaffold = Scaffold.of(context);
                           AppSnack.showSnackBar(
@@ -229,7 +191,7 @@ class VideoTile extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 String url =
-                                    "http://youtube.com/watch?v=${searchItem.videoId.value}";
+                                    "http://youtube.com/watch?v=${searchItem.id}";
                                 return Wrap(
                                   children: [
                                     DownloadMenu(
@@ -246,7 +208,6 @@ class VideoTile extends StatelessWidget {
                           break;
                         case "Add to Favorites":
                           Video videoToSave;
-
                           videoToSave = searchItem;
 
                           List<Video> videos = prefs.favoriteVideos;
@@ -260,7 +221,6 @@ class VideoTile extends StatelessWidget {
                           break;
                         case "Add to Watch Later":
                           Video videoToSave;
-
                           videoToSave = searchItem;
 
                           List<Video> videos = prefs.watchLaterVideos;
@@ -290,17 +250,15 @@ class VideoTile extends StatelessWidget {
   }
 
   Future<String> _getThumbnailLink() async {
-    if (searchItem is Video) {
-      String link = searchItem.thumbnails.highResUrl;
-      return link;
-    }
+    String link = searchItem.thumbnailUrl;
+    return link;
   }
 
   Future<String> _getChannelLogoUrl(context) async {
     ManagerProvider manager = Provider.of<ManagerProvider>(context);
-    if (searchItem is Video) {
-      Video video = searchItem;
-      return video.channelLogo;
-    }
+
+    Video video = searchItem;
+
+    return video.channelLogo;
   }
 }

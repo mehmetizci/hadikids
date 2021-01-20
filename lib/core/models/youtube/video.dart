@@ -11,8 +11,10 @@ class Video extends Equatable {
   final String views;
   final String channelName;
   final String channelId;
-  final String channelUrl;
   final String channelLogo;
+  final String channelUrl;
+  final String likeCount;
+  final String dislikeCount;
 
   Video(
       {this.id,
@@ -25,8 +27,10 @@ class Video extends Equatable {
       this.views,
       this.channelName,
       this.channelId,
+      this.channelLogo,
       this.channelUrl,
-      this.channelLogo});
+      this.likeCount,
+      this.dislikeCount});
 
   static Video fromJson(Map<String, dynamic> json) {
     final id = json['id'];
@@ -34,13 +38,15 @@ class Video extends Equatable {
     final url = json['url'];
     final duration = json['duration'];
     final snippet = json['snippet'];
-    final uploadDate = json['upload_date'];
+    final uploadDate = json['uploadDate'];
     final thumbnailUrl = json['thumbnailUrl'];
     final views = json['views'];
     final channelName = json['channelName'];
     final channelId = json['channelId'];
-    final channelUrl = json['channel_url'];
     final channelLogo = json['channelLogo'];
+    final channelUrl = json['channelUrl'];
+    final likeCount = json['likeCount'] ?? "0";
+    final dislikeCount = json['dislikeCount'] ?? "0";
 
     return Video(
       id: id,
@@ -53,8 +59,10 @@ class Video extends Equatable {
       views: views,
       channelName: channelName,
       channelId: channelId,
-      channelUrl: channelUrl,
       channelLogo: channelLogo,
+      channelUrl: channelUrl,
+      likeCount: likeCount,
+      dislikeCount: dislikeCount,
     );
   }
 
@@ -64,13 +72,15 @@ class Video extends Equatable {
         "url": url == null ? null : url,
         "duration": duration == null ? null : duration,
         "snippet": snippet == null ? null : snippet,
-        "upload_date": uploadDate == null ? null : uploadDate,
+        "uploadDate": uploadDate == null ? null : uploadDate,
         "thumbnailUrl": thumbnailUrl == null ? null : thumbnailUrl,
         "views": views == null ? null : views,
         "channelName": channelName == null ? null : channelName,
+        "channelUrl": channelUrl == null ? null : channelUrl,
         "channelId": channelId == null ? null : channelId,
-        "channel_url": channelUrl == null ? null : channelUrl,
         "channelLogo": channelLogo == null ? null : channelLogo,
+        "likeCount": likeCount == null ? null : likeCount,
+        "dislikeCount": dislikeCount == null ? null : dislikeCount,
       };
 
   @override
@@ -84,8 +94,11 @@ class Video extends Equatable {
         thumbnailUrl,
         views,
         channelName,
-        channelId,
         channelUrl,
+        channelId,
         channelLogo,
+        channelUrl,
+        likeCount,
+        dislikeCount,
       ];
 }
