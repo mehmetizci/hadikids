@@ -29,7 +29,7 @@ class HomePageFavorites extends StatelessWidget {
                   prefs.favoriteVideos = videos;
                   AppSnack.showSnackBar(
                       icon: EvaIcons.alertCircleOutline,
-                      title: "Video removed from Favorites",
+                      title: "Video favoriler'den silindi.",
                       context: context,
                       scaffoldKey: Scaffold.of(context));
                 },

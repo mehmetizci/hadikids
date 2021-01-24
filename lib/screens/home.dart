@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:haydikids/screens/homeScreen/pages/favorites.dart';
 import 'package:haydikids/screens/homeScreen/pages/homePage.dart';
 import 'package:haydikids/screens/homeScreen/pages/music.dart';
-import 'package:haydikids/screens/homeScreen/pages/trending.dart';
+import 'package:haydikids/screens/homeScreen/pages/education.dart';
 import 'package:haydikids/screens/homeScreen/pages/watchLater.dart';
 import 'package:haydikids/utils/ui/components/searchHistory.dart';
 
