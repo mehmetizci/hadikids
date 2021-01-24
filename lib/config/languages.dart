@@ -172,6 +172,7 @@ abstract class Languages {
   // Navigate Screen
   String get labelSearchYoutube;
   String get labelSearch;
+  String get labelProfile;
 
   // More Screen
   String get labelSettings;

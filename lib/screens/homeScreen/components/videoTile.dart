@@ -45,7 +45,7 @@ class VideoTile extends StatelessWidget {
         List<Video> relatedVideos;
         if (manager.currentHomeTab == HomeScreenTab.Favorites) {
           relatedVideos = prefs.favoriteVideos;
-        } else if (manager.currentHomeTab == HomeScreenTab.WatchLater) {
+        } else if (manager.currentHomeTab == HomeScreenTab.Education) {
           relatedVideos = prefs.watchLaterVideos;
         }
         manager.updateMediaInfoSet(searchItem, relatedVideos);

@@ -7,6 +7,7 @@ import 'package:haydikids/core/bubble_bottom_bar.dart';
 class BubbleNavigationBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onItemTap;
+
   BubbleNavigationBar({@required this.currentIndex, @required this.onItemTap});
   @override
   Widget build(BuildContext context) {
@@ -23,69 +24,88 @@ class BubbleNavigationBar extends StatelessWidget {
       ),
       child: BubbleBottomBar(
         hasNotch: true,
-        fabLocation: BubbleBottomBarFabLocation.end,
-        opacity: .2,
+        opacity: 0.9,
+        hasInk: true,
         currentIndex: currentIndex,
+        // iconSize: 24,
         onTap: (int index) => onItemTap(index),
         borderRadius: BorderRadius.vertical(
             top: Radius.circular(
-                16)), //border radius doesn't work when the notch is enabled.
-        elevation: 8,
+                8)), //border radius doesn't work when the notch is enabled.
+        elevation: 20,
         items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
-            backgroundColor: Theme.of(context).cardColor,
+            backgroundColor: Theme.of(context).accentColor,
             icon: Icon(
               EvaIcons.homeOutline,
               color: Theme.of(context).iconTheme.color,
             ),
             activeIcon: Icon(
               EvaIcons.homeOutline,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).cardColor,
             ),
             title: Text(Languages.of(context).labelHome,
                 style: TextStyle(
+                    color: Theme.of(context).cardColor,
+                    fontSize: 16,
                     fontFamily: 'Product Sans',
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.2)),
           ),
           BubbleBottomBarItem(
-            backgroundColor: Theme.of(context).cardColor,
+            backgroundColor: Theme.of(context).accentColor,
             icon: Icon(
               EvaIcons.searchOutline,
               color: Theme.of(context).iconTheme.color,
             ),
             activeIcon: Icon(
               EvaIcons.searchOutline,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).cardColor,
             ),
             title: Text(Languages.of(context).labelSearch,
                 style: TextStyle(
+                    color: Theme.of(context).cardColor,
+                    fontSize: 16,
                     fontFamily: 'Product Sans',
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.2)),
           ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.indigo,
-              icon: Icon(
-                Icons.folder_open,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.folder_open,
-                color: Colors.indigo,
-              ),
-              title: Text("Folders")),
+            backgroundColor: Theme.of(context).accentColor,
+            icon: Icon(
+              EvaIcons.personAddOutline,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            activeIcon: Icon(
+              EvaIcons.personAddOutline,
+              color: Theme.of(context).cardColor,
+            ),
+            title: Text(Languages.of(context).labelProfile,
+                style: TextStyle(
+                    color: Theme.of(context).cardColor,
+                    fontSize: 16,
+                    fontFamily: 'Product Sans',
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2)),
+          ),
           BubbleBottomBarItem(
-              backgroundColor: Colors.green,
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.menu,
-                color: Colors.green,
-              ),
-              title: Text("Menu"))
+            backgroundColor: Theme.of(context).accentColor,
+            icon: Icon(
+              EvaIcons.settingsOutline,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            activeIcon: Icon(
+              EvaIcons.settingsOutline,
+              color: Theme.of(context).cardColor,
+            ),
+            title: Text(Languages.of(context).labelSettings,
+                style: TextStyle(
+                    color: Theme.of(context).cardColor,
+                    fontSize: 16,
+                    fontFamily: 'Product Sans',
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2)),
+          )
         ],
       ),
     );

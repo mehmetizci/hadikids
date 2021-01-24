@@ -13,7 +13,7 @@ import 'package:haydikids/core/models/youtube/video.dart';
 // Packages
 //import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-enum HomeScreenTab { Home, Trending, Music, Favorites, WatchLater }
+enum HomeScreenTab { Home, Education, Music, Favorites }
 
 class ManagerProvider extends ChangeNotifier {
   // ----------------
@@ -33,7 +33,7 @@ class ManagerProvider extends ChangeNotifier {
     _screenIndex = 0;
     // Home Screen
     currentHomeTab = HomeScreenTab.Home;
-    homeTrendingVideoList = [];
+    homeEducationVideoList = [];
     homeMusicVideoList = [];
     youtubeSearchQuery = lastSearchQuery;
     searchStreamRunning = false;
@@ -115,7 +115,7 @@ class ManagerProvider extends ChangeNotifier {
   }
 
   // Trending Video List
-  List<Video> homeTrendingVideoList;
+  List<Video> homeEducationVideoList;
   // Music Video List
   List<Video> homeMusicVideoList;
 

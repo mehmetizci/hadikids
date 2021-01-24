@@ -32,19 +32,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     ManagerProvider manager =
         Provider.of<ManagerProvider>(context, listen: false);
-    controller = TabController(length: 5, vsync: this);
+    controller = TabController(length: 4, vsync: this);
     controller.addListener(() {
       int tabIndex = controller.index;
       if (tabIndex == 0) {
         manager.currentHomeTab = HomeScreenTab.Home;
       } else if (tabIndex == 1) {
-        manager.currentHomeTab = HomeScreenTab.Trending;
+        manager.currentHomeTab = HomeScreenTab.Education;
       } else if (tabIndex == 2) {
         manager.currentHomeTab = HomeScreenTab.Music;
       } else if (tabIndex == 3) {
         manager.currentHomeTab = HomeScreenTab.Favorites;
-      } else if (tabIndex == 4) {
-        manager.currentHomeTab = HomeScreenTab.WatchLater;
       }
     });
     super.initState();
@@ -87,10 +85,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Expanded(
                   child: TabBarView(controller: controller, children: [
                     HomePage(),
-                    HomePageTrending(),
+                    HomePageEducation(),
                     HomePageMusic(),
                     HomePageFavorites(),
-                    HomePageWatchLater()
+                    // HomePageWatchLater()
                   ]),
                 ),
               ],

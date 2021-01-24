@@ -104,24 +104,22 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
               if (tabIndex == 0) {
                 manager.currentHomeTab = HomeScreenTab.Home;
               } else if (tabIndex == 1) {
-                manager.currentHomeTab = HomeScreenTab.Trending;
+                manager.currentHomeTab = HomeScreenTab.Education;
               } else if (tabIndex == 2) {
                 manager.currentHomeTab = HomeScreenTab.Music;
               } else if (tabIndex == 3) {
                 manager.currentHomeTab = HomeScreenTab.Favorites;
-              } else if (tabIndex == 4) {
-                manager.currentHomeTab = HomeScreenTab.WatchLater;
               }
             },
             physics: BouncingScrollPhysics(),
             isScrollable: true,
             labelStyle: TextStyle(
-                fontSize: 13,
+                fontSize: 16,
                 fontFamily: 'Product Sans',
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.3),
             unselectedLabelStyle: TextStyle(
-                fontSize: 13,
+                fontSize: 14,
                 fontFamily: 'Product Sans',
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.2),
@@ -134,11 +132,11 @@ class _HomePageAppBarState extends State<HomePageAppBar> {
               indicatorColor: Theme.of(context).accentColor,
             ),
             tabs: [
-              Tab(text: "Home Page"),
-              Tab(text: "Trending"),
-              Tab(text: "Music"),
-              Tab(text: "Favorites"),
-              Tab(text: "Watch Later")
+              Tab(text: "Ana Sayfa"),
+              Tab(text: "Müzik"),
+              Tab(text: "Eğitim"),
+              Tab(text: "Favoriler"),
+              // Tab(text: "Watch Later")
             ],
           ),
         ),

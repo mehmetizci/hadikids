@@ -165,6 +165,7 @@ class _LibState extends State<Lib> {
     Brightness _statusBarBrightness = _systemBrightness == Brightness.light
         ? Brightness.dark
         : Brightness.light;
+
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -239,7 +240,7 @@ class _LibState extends State<Lib> {
       return HomeScreen();
     } else if (manager.screenIndex == 1) {
       return HomeScreen();
-      //DownloadTab();
+      // DownloadTab();
     } else if (manager.screenIndex == 2) {
       return HomeScreen();
       // MediaScreen();

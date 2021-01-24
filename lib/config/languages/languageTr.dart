@@ -138,7 +138,10 @@ class LanguageTr extends Languages {
   String get labelSearchYoutube => "Youtube'da Ara...";
 
   @override
-  String get labelSearch => "Ara";
+  String get labelSearch => "Video Ara";
+
+  @override
+  String get labelProfile => "Profiller";
 
   // More Screen
   @override

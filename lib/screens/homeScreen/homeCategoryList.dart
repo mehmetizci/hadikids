@@ -53,15 +53,16 @@ class HomePageCategoryList extends SliverPersistentHeaderDelegate {
             context: context,
             selected:
                 manager.currentHomeTab == HomeScreenTab.Home ? true : false,
-            title: "Home Page",
+            title: "Ana Sayfa",
             onTap: () => onCategoryTap(HomeScreenTab.Home)),
         // Trending
         categoryTile(
             context: context,
-            selected:
-                manager.currentHomeTab == HomeScreenTab.Trending ? true : false,
-            title: "Trending",
-            onTap: () => onCategoryTap(HomeScreenTab.Trending)),
+            selected: manager.currentHomeTab == HomeScreenTab.Education
+                ? true
+                : false,
+            title: "Education",
+            onTap: () => onCategoryTap(HomeScreenTab.Education)),
         // Music
         categoryTile(
             context: context,
@@ -78,13 +79,13 @@ class HomePageCategoryList extends SliverPersistentHeaderDelegate {
             title: "Favorites",
             onTap: () => onCategoryTap(HomeScreenTab.Favorites)),
         // Watch Later
-        categoryTile(
+        /* categoryTile(
             context: context,
             selected: manager.currentHomeTab == HomeScreenTab.WatchLater
                 ? true
                 : false,
             title: "Watch Later",
-            onTap: () => onCategoryTap(HomeScreenTab.WatchLater)),
+            onTap: () => onCategoryTap(HomeScreenTab.WatchLater))*/
         SizedBox(width: 8)
       ],
     );

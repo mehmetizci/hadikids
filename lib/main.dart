@@ -102,6 +102,7 @@ class _MainState extends State<Main> {
             supportedLocales.add(Locale(element.languageCode, '')));
 
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           locale: _locale,
           supportedLocales: supportedLocales,
           localizationsDelegates: [
