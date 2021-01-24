@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:haydikids/utils/ui/animations/blurPageRoute.dart';
 import 'package:haydikids/utils/ui/components/navigationBar.dart';
+import 'package:haydikids/utils/ui/components/bottomBar.dart';
 import 'package:haydikids/utils/ui/components/searchHistory.dart';
 import 'package:haydikids/utils/ui/dialogs/appUpdateDialog.dart';
 import 'package:haydikids/utils/ui/dialogs/joinTelegramDialog.dart';
@@ -224,7 +225,8 @@ class _LibState extends State<Lib> {
         ),
         bottomNavigationBar:
             Consumer<ManagerProvider>(builder: (context, manager, _) {
-          return AppBottomNavigationBar(
+          print("index" + manager.screenIndex.toString());
+          return BubbleNavigationBar(
               onItemTap: (int index) => manager.screenIndex = index,
               currentIndex: manager.screenIndex);
         }),
